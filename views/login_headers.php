@@ -1,0 +1,41 @@
+<?php
+if(Site::$u){
+    header('location:/home');
+    exit();
+}
+$loginSuccess="";
+$loginFailure="";
+if(isset($_POST['userName'])&&
+   isset($_POST['userPassword'])&&
+   isset($_POST['sessionLength'])&&
+   $_POST['sessionLength']<31){
+    $userName=$_POST['userName'];
+    $userPassword=$_POST['userPassword'];
+    $tokenExpires=(int)$_POST['sessionLength'];
+    $user=new User($_POST['userName']);
+    if($user->getId()&&
+       password_verify($userPassword,$user->getPassword())){
+	if($user->getGroupId()>0){
+	    if($tokenExpires>0){
+		$tokenSession=sha1(uniqid(rand(),true));
+		$tokenToken=md5(uniqid());
+		setcookie('token',
+			  "$tokenSession|$tokenToken",
+			  time()+$tokenExpires*24*60*60,
+			  '/','pest.plus',
+			  TRUE);
+		$user->createToken($tokenSession,
+				   $tokenToken,
+				   $tokenExpires);
+		$_SESSION['tokenSession']=$tokenSession;
+	    }
+	    $_SESSION['userId']=$user->getId();
+	    header("location:/home");
+	}
+	else
+	    $loginFailure="Your are not allowed to log in. If you have not activated your account yet, you need to click the link sent to the email you specified, or wait around 24 hours for the user to render null and create a new account.";
+    }
+    else
+	$loginFailure="Your username or password is incorrect.";
+}
+?>

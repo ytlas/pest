@@ -1,0 +1,10 @@
+<?php
+if(!Site::$u){
+    header('location:/home');
+    exit();
+}
+if(isset($_GET['themeName'])){
+    Site::$u->setTheme($_GET['themeName']);
+    header('location:/account');
+}
+?>
