@@ -1,6 +1,0 @@
-#signupForm input[type='text'],
-#signupForm input[type='password'],
-#signupForm input[type='email']{
-    width:50%;
-    margin-right:50%;
-}
