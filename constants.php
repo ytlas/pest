@@ -1,0 +1,6 @@
+<?php
+const USER_EXISTS = 0;
+const USER_NEXIST = 1;
+const USER_INVALID_NAME = 2;
+const USER_INVALID_PASSWORD = 3;
+const USER_INVALID_EMAIL = 4;

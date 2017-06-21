@@ -1,0 +1,10 @@
+body{
+    color: white;
+    background-color: black;
+    max-width:50em;
+    margin:auto;
+}
+
+hr{
+    border: 1px solid red;
+}
